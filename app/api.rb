@@ -1,11 +1,10 @@
 module Hero
   class API < Grape::API
+    use Rack::Session::Redis, :expire_after => 30 * ( 24 * 60 * 60 )
     prefix 'v1'
     format :json
     mount ::Hero::Ping
     mount ::Hero::Auth
-    # add_swagger_documentation api_version: 'v1'
-
     def self.inherited(subclass)
       super
       subclass.instance_eval do

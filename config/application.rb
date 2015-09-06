@@ -10,6 +10,10 @@ Dir[File.expand_path('../../api/*.rb', __FILE__)].each do |f|
   require f
 end
 
+Dir[File.expand_path('../../lib/*.rb', __FILE__)].each do |f|
+  require f
+end
+
 require 'api'
 require 'hero_app'
 require 'auth_source_pwauth'

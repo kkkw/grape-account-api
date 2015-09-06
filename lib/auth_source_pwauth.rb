@@ -1,13 +1,12 @@
 require 'open3'
 
-class AuthSourcePwauth 
+class AuthSourcePwauth < AuthSourceBase
   def self.authenticate(login, password)
     out, error, status = Open3.capture3('pwauth', :stdin_data => "#{login}\n#{password}")
     return nil unless status.success?
-    return [:login => login]
-  end
 
-  def self.authenticate_by_token(token)
-
+    user = User.new(login)
+    user.token(self.generate_token)
+    return user
   end
 end
