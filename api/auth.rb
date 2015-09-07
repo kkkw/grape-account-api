@@ -6,6 +6,9 @@ module Hero
     # 
 
     helpers do
+      def current_user
+        return nil if env['rack.session'][:user].nil?
+      end
       def current_user=(user)
         env['rack.session'][:user] = user unless user
         @current_user = user
@@ -18,7 +21,12 @@ module Hero
     #   requires: :password, type: String, desc: 'linux password'
     # end
     get '/auth' do
-      current_user = AuthSourcePwauth.authenticate(login,password)
+      current_user = AuthSourcePwauth.authenticate(params[:login],params[:password])
+      {token: current_user.token}
+    end
+
+    get '/me' do
+
     end
 
 
