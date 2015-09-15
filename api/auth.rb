@@ -6,6 +6,15 @@ module Hero
       error!({status:401, status_code: 'unauthorized'}, 401) unless current_user
       redis = AuthSourceRedis.new
       token = redis.generate_token(current_user.user)
+
+      expires = Time.now
+      expires = expires + (24 * 60 * 60)
+      cookies[:token] = {
+        value: token,
+        expires: expires,
+        domain: '.example.com'
+      }
+
       {token: token, user:current_user.user}
     end
 
